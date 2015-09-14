@@ -10,6 +10,15 @@ var app = express();
 var router = express.Router();
 router.use(bodyparser.json());
 
+router.get('/notes', function(req, res) {
+  //Empty object tells mongoose to find every note. Also, data will be an array.
+  Note.find({}, function(err, data) {
+    if (err) return res.status(500).send('msg': 'could not retrieve notes');
+
+    res.json(data);
+  });
+});
+
 router.post('/notes', function(req, res) {
   var newNote = new Note(req.body);
   newNote.save(function(err, note) {
