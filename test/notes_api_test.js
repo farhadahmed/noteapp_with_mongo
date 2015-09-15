@@ -63,5 +63,17 @@ describe('notes api end points', function() {
           done();
         });
     });
+
+    it('should delete a note', function(done) {
+      console.log(id);
+      chai.request('localhost:3000/api/v1')
+        .delete('/notes/' + id)
+        .end(function(err, res) {
+          expect(err).to.eql(null);
+          expect(res.body).to.eql({ msg: 'Note deleted'});
+          done();
+        });
+    });
+
   });
 });
