@@ -13,7 +13,7 @@ router.use(bodyparser.json());
 router.get('/notes', function(req, res) {
   //Empty object tells mongoose to find every note. Also, data will be an array.
   Note.find({}, function(err, data) {
-    if (err) return res.status(500).send('msg': 'could not retrieve notes');
+    if (err) return res.status(500).send({'msg': 'could not retrieve notes'});
 
     res.json(data);
   });
@@ -25,6 +25,16 @@ router.post('/notes', function(req, res) {
     if (err) return res.status(500).send({'msg': 'could not save note'});
 
     res.json(note);
+  });
+});
+
+router.put('/notes/:id', function(req, res) {
+  var updatedNote = req.body;
+  delete updatedNote._id;
+  Note.update({_id: req.params.id}, updatedNote, function(err) {
+    if (err) return res.status(500).send({'msg': 'could not update note'});
+
+    res.json(req.body);
   });
 });
 
